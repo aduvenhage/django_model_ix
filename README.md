@@ -10,5 +10,23 @@ The import and export features are very simple and might not work for all models
 
 Before I decided to create this module I looked at django-import-export (https://django-import-export.readthedocs.io).  It was super easy to export models to YAML, but I just could not figure out the importing.  It did however learn quite a lot about django's models, fields and `_meta` API while trying to debug the importing.  
 
+The `tablib` module supports many different formats, not just YAML.  Maybe later I will make the file format configurable. 
+
 ## Python Usage Examples
+The module only has to user functions: one for importing and one for exporting.  The export function creates a new file for each model type (for example, `User.yaml` in the code below).
+
+```
+from django.contrib.auth.models import User
+from import_export import model_yaml
+
+path = './'
+
+model_yaml.exportYaml(User, path)
+
+...
+
+model_yaml.importYaml(User, path)
+
+
+```
 
