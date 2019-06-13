@@ -16,6 +16,9 @@ The `tablib` module supports many different formats, not just YAML.  Maybe later
 The module only has to user functions: one for importing and one for exporting.  The export function creates a new file for each model type (for example, `User.yaml` in the code below).
 
 ```
+
+# This code will export all users to 'User.yaml' and then import it again.
+
 from django.contrib.auth.models import User
 from import_export import model_yaml
 
