@@ -8,5 +8,7 @@ Key features of Python/Django I had to learn:
 
 The import and export features are very simple and might not work for all models yet.
 
+Before I decided to create this module I looked at django-import-export (https://django-import-export.readthedocs.io).  It was super easy to export models to YAML, but I just could not figure out the importing.  It did however learn quite a lot about django's models, fields and `_meta` API while trying to debug the importing.  
+
 ## Python Usage Examples
 
