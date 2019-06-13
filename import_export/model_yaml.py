@@ -11,12 +11,12 @@ import os
 
 
 # return DB style formatted field value
-def exportField(f, instance):
+def __exportField(f, instance):
     return f.value_to_string(instance)
 
 
 # copy model fields to dictionary
-def exportDict(instance):
+def __exportDict(instance):
     data = {}
 
     for f in instance._meta.get_fields():
@@ -26,27 +26,27 @@ def exportDict(instance):
 
         # export 'ForeignKey' field types
         elif isinstance(f, fields.related.ForeignKey):
-            data[f.name] = exportField(f, instance)
+            data[f.name] = __exportField(f, instance)
 
         # ignore all 'ForeignObjectRel' field types (besides ForeignKey)
         elif isinstance(f, fields.related.RelatedField):
             pass
 
         else:
-            data[f.name] = exportField(f, instance)
+            data[f.name] = __exportField(f, instance)
 
     return data
 
 
 # write model content to file in YAML format
-def writeYamlFile(modelType, path):
+def __writeYamlFile(modelType, path):
     objects = list(modelType.objects.all())
     if objects:
-        headers = exportDict(objects[0]).keys()
+        headers = __exportDict(objects[0]).keys()
         dataset = tablib.Dataset(headers=headers)
 
         for obj in objects:
-            attr = exportDict(obj)
+            attr = __exportDict(obj)
             dataset.append(attr.values())
 
         # create file and write dataset (text/yaml)
@@ -58,7 +58,7 @@ def writeYamlFile(modelType, path):
 # write resource to file in YAML format (with error handling)
 def exportYaml(modelType, path):
     try:
-        writeYamlFile(modelType, path)
+        __writeYamlFile(modelType, path)
         print("Exported '%s' to '%s'." % (modelType.__name__, path))
 
     except Exception as e:
@@ -67,7 +67,7 @@ def exportYaml(modelType, path):
 
 
 # import formatted value
-def importField(instance, f, data):
+def __importField(instance, f, data):
     try:
         # NOTE: sets the model column attribute value for related fields
         if isinstance(f, fields.related.RelatedField):
@@ -80,15 +80,15 @@ def importField(instance, f, data):
 
 
 # update model fields with dictionary
-def importDict(instance, data):
+def __importDict(instance, data):
     for f in instance._meta.get_fields():
         # ignore all 'ForeignObjectRel' field types
         if not isinstance(f, fields.related.ForeignObjectRel):
-            importField(instance, f, data)
+            __importField(instance, f, data)
 
 
 # read model content from YAML file
-def readYamlFile(modelType, path):
+def __readYamlFile(modelType, path):
     # open data set file
     filePath = os.path.join(path, modelType.__name__ + ".yaml")
 
@@ -101,7 +101,7 @@ def readYamlFile(modelType, path):
 
         for row in dataset:
             obj = modelType()
-            importDict(obj, dict(zip(dataset.headers, row)))
+            __importDict(obj, dict(zip(dataset.headers, row)))
 
             obj.save()
 
@@ -109,7 +109,7 @@ def readYamlFile(modelType, path):
 # read model content from YAML file (with error handling)
 def importYaml(modelType, path):
     try:
-        readYamlFile(modelType, path)
+        __readYamlFile(modelType, path)
         print("Imported to '%s' from '%s'." % (modelType.__name__, path))
 
     except Exception as e:
