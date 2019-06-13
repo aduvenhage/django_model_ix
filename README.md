@@ -4,7 +4,7 @@ As part of my efforts to learn python and django I decided to create a little mo
 Key features of Python/Django I had to learn:
 - Django model fields (spent some time on docs and even django code on git to figure out which way was up)
 - Django model options and `_meta API`
-- Python tablib
+- Python `tablib`
 
 The import and export features are very simple and might not work for all models yet.
 
