@@ -3,7 +3,7 @@ As part of my efforts to learn python and django I decided to create a little mo
 
 Key features of Python/Django I had to learn:
 - Django model fields (spent some time on docs and even django code on git to figure out which way was up)
-- Django model options and `_meta API`
+- Django model options and `_meta` API
 - Python `tablib`
 
 Before I decided to create this module I looked at django-import-export (https://django-import-export.readthedocs.io).  It was super easy to export models to YAML, but I just could not figure out the importing.  It did however learn quite a lot about django's models, fields and `_meta` API while trying to debug the importing.  
